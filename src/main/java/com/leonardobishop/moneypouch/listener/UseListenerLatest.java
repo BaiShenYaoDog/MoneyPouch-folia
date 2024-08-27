@@ -2,7 +2,6 @@ package com.leonardobishop.moneypouch.listener;
 
 import com.leonardobishop.moneypouch.MoneyPouch;
 import com.leonardobishop.moneypouch.Pouch;
-import com.leonardobishop.moneypouch.economytype.InvalidEconomyType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

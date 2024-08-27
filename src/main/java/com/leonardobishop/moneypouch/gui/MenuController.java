@@ -1,7 +1,7 @@
 package com.leonardobishop.moneypouch.gui;
 
+import com.github.Anon8281.universalScheduler.foliaScheduler.FoliaScheduler;
 import com.leonardobishop.moneypouch.MoneyPouch;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,7 +15,7 @@ public class MenuController implements Listener {
     private final HashMap<Player, Menu> menuTracker = new HashMap<>();
 
     public MenuController(MoneyPouch plugin) {
-        Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+        new FoliaScheduler(plugin).runTaskTimer(() -> {
             for (Menu menu : menuTracker.values()) {
                 menu.update();
             }

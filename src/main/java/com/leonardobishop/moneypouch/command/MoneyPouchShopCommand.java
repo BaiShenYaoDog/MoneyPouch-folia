@@ -16,12 +16,11 @@ public class MoneyPouchShopCommand implements CommandExecutor {
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (sender instanceof Player) {
+        if (sender instanceof Player player) {
             if (!plugin.getConfig().getBoolean("shop.enabled", false)) {
                 sender.sendMessage(plugin.getMessage(MoneyPouch.Message.SHOP_DISABLED));
                 return true;
             }
-            Player player = (Player) sender;
             plugin.getMenuController().openMenu(player, new ShopMenu(player, plugin));
         }
         return true;

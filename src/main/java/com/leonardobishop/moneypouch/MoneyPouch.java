@@ -1,29 +1,24 @@
 package com.leonardobishop.moneypouch;
 
+import com.github.Anon8281.universalScheduler.foliaScheduler.FoliaScheduler;
 import com.leonardobishop.moneypouch.command.MoneyPouchAdminCommand;
 import com.leonardobishop.moneypouch.command.MoneyPouchBaseCommand;
 import com.leonardobishop.moneypouch.command.MoneyPouchShopCommand;
-import com.leonardobishop.moneypouch.economytype.CustomEconomyType;
-import com.leonardobishop.moneypouch.economytype.EconomyType;
-import com.leonardobishop.moneypouch.economytype.InvalidEconomyType;
-import com.leonardobishop.moneypouch.economytype.LemonMobCoinsEconomyType;
-import com.leonardobishop.moneypouch.economytype.VaultEconomyType;
-import com.leonardobishop.moneypouch.economytype.XPEconomyType;
-import com.leonardobishop.moneypouch.listener.JoinListener;
-import com.leonardobishop.moneypouch.listener.UseListener;
-import com.leonardobishop.moneypouch.listener.UseListenerLatest;
+import com.leonardobishop.moneypouch.economytype.*;
 import com.leonardobishop.moneypouch.gui.MenuController;
 import com.leonardobishop.moneypouch.itemgetter.ItemGetter;
 import com.leonardobishop.moneypouch.itemgetter.ItemGetterLatest;
 import com.leonardobishop.moneypouch.itemgetter.ItemGetter_1_13;
 import com.leonardobishop.moneypouch.itemgetter.ItemGetter_Late_1_8;
+import com.leonardobishop.moneypouch.listener.JoinListener;
+import com.leonardobishop.moneypouch.listener.UseListener;
+import com.leonardobishop.moneypouch.listener.UseListenerLatest;
 import com.leonardobishop.moneypouch.title.Title;
 import com.leonardobishop.moneypouch.title.Title_Bukkit;
 import com.leonardobishop.moneypouch.title.Title_BukkitReflect;
 import com.leonardobishop.moneypouch.title.Title_Other;
 import com.leonardobishop.moneypouch.updater.Updater;
 import org.apache.commons.lang.StringUtils;
-import org.bstats.bukkit.MetricsLite;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -32,18 +27,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URI;
-import java.nio.file.FileVisitResult;
-import java.nio.file.FileVisitor;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
+import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,7 +50,7 @@ public class MoneyPouch extends JavaPlugin {
      * Gets a registered {@link EconomyType} with a specified ID.
      *
      * @param id id of economy type
-     * @return   {@link EconomyType} or null
+     * @return {@link EconomyType} or null
      */
     public EconomyType getEconomyType(String id) {
         if (id == null) {
@@ -86,9 +72,9 @@ public class MoneyPouch extends JavaPlugin {
      * Registers an {@link EconomyType} with the plugin.
      * If the ID conflicts with an existing type, the registration will be ignored.
      *
-     * @param id    id of the economy type
-     * @param type  the economy type
-     * @return      boolean if registered
+     * @param id   id of the economy type
+     * @param type the economy type
+     * @return boolean if registered
      */
     public boolean registerEconomyType(String id, EconomyType type) {
         if (economyTypes.containsKey(id)) {
@@ -170,11 +156,7 @@ public class MoneyPouch extends JavaPlugin {
             }
         }
 
-        MetricsLite metrics = new MetricsLite(this, 9927);
-        if (metrics.isEnabled()) {
-            super.getLogger().info("Metrics started. This can be disabled at /plugins/bStats/config.yml.");
-        }
-
+        new Metrics(this, 9927);
         menuController = new MenuController(this);
 
         registerEconomyType("invalid", new InvalidEconomyType());
@@ -204,8 +186,8 @@ public class MoneyPouch extends JavaPlugin {
 
         this.updater = new Updater(this, super.getDescription().getVersion(), true);
 
-        Bukkit.getScheduler().runTaskAsynchronously(this, updater::check);
-        Bukkit.getScheduler().runTask(this, this::reload);
+        new FoliaScheduler(this).runTaskAsynchronously(updater::check);
+        new FoliaScheduler(this).runTask(this::reload);
     }
 
     public String getMessage(Message message) {
@@ -385,8 +367,8 @@ public class MoneyPouch extends JavaPlugin {
         SHOP_DISABLED("shop-disabled", "&cThe pouch shop is disabled."),
         NO_PERMISSION("no-permission", "&cYou cannot open this pouch.");
 
-        private String id;
-        private String def; // (default message if undefined)
+        private final String id;
+        private final String def; // (default message if undefined)
 
         Message(String id, String def) {
             this.id = id;

@@ -1,5 +1,6 @@
 package com.leonardobishop.moneypouch.listener;
 
+import com.github.Anon8281.universalScheduler.UniversalRunnable;
 import com.leonardobishop.moneypouch.MoneyPouch;
 import com.leonardobishop.moneypouch.Pouch;
 import com.leonardobishop.moneypouch.economytype.InvalidEconomyType;
@@ -9,16 +10,13 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -83,7 +81,8 @@ public class UseListener implements Listener {
     protected void playSound(Player player, String name) {
         try {
             player.playSound(player.getLocation(), Sound.valueOf(name), 3, 1);
-        } catch (Exception ignored) { }
+        } catch (Exception ignored) {
+        }
     }
 
     protected void usePouch(Player player, Pouch pouch) {
@@ -98,7 +97,7 @@ public class UseListener implements Listener {
         }
     }
 
-    private class PaymentRunnable extends BukkitRunnable {
+    private class PaymentRunnable extends UniversalRunnable {
 
         private final Player player;
         private final Pouch pouch;
@@ -168,11 +167,13 @@ public class UseListener implements Listener {
             for (int i = position; i < number.length(); i++) {
                 if (reversePouchReveal) {
                     char at = number.charAt(number.length() - i - 1);
-                    if (at == ',')  {
+                    if (at == ',') {
                         if (revealComma) {
                             viewedTitle.insert(0, at).insert(0, revealColour);
-                        } else viewedTitle.insert(0, obfuscateDelimiterChar).insert(0, ChatColor.MAGIC).insert(0, obfuscateColour);
-                    } else viewedTitle.insert(0, obfuscateDigitChar).insert(0, ChatColor.MAGIC).insert(0, obfuscateColour);;
+                        } else
+                            viewedTitle.insert(0, obfuscateDelimiterChar).insert(0, ChatColor.MAGIC).insert(0, obfuscateColour);
+                    } else
+                        viewedTitle.insert(0, obfuscateDigitChar).insert(0, ChatColor.MAGIC).insert(0, obfuscateColour);
                 } else {
                     char at = number.charAt(i);
                     if (at == ',') {

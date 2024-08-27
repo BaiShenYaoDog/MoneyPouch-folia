@@ -69,7 +69,7 @@ public class ShopMenu extends Menu {
         int max = purchasablePouches.size();
         int size;
         if (max <= 0) {
-            size =  9;
+            size = 9;
         } else {
             int quotient = (int) Math.ceil(max / 9.0);
             size = (quotient > 5 ? 54 : quotient * 9);

@@ -1,7 +1,7 @@
 package com.leonardobishop.moneypouch.listener;
 
+import com.github.Anon8281.universalScheduler.foliaScheduler.FoliaScheduler;
 import com.leonardobishop.moneypouch.MoneyPouch;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,7 +25,7 @@ public class JoinListener implements Listener {
                     + ChatColor.DARK_PURPLE + plugin.getUpdater().getReturnedVersion()
                     + ChatColor.LIGHT_PURPLE + "). Please update me! <3 - Link: "
                     + ChatColor.UNDERLINE + plugin.getUpdater().getUpdateLink();
-            Bukkit.getScheduler().runTaskLater(this.plugin, () -> event.getPlayer().sendMessage(updateMessage), 50L);
+            new FoliaScheduler(plugin).runTaskLater(() -> event.getPlayer().sendMessage(updateMessage), 50L);
         }
     }
 

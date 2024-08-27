@@ -32,6 +32,7 @@ public class LemonMobCoinsEconomyType extends EconomyType {
             plugin.getLogger().log(Level.SEVERE, "Plugin 'LemonMobCoins' is not present on the server!");
         }
     }
+
     @Override
     public void processPayment(Player player, long amount) {
         // this can change if lemonmobcoins is reloaded using plugman as some weird fuckery happens

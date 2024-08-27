@@ -5,20 +5,20 @@ import org.bukkit.inventory.Inventory;
 
 public abstract class Menu {
 
+    private final Player player;
     private Menu superMenu;
     private Inventory inventory;
-    private Player player;
 
     public Menu(Player player) {
         this.player = player;
     }
 
-    public void setSuperMenu(Menu superMenu) {
-        this.superMenu = superMenu;
-    }
-
     public Menu getSuperMenu() {
         return superMenu;
+    }
+
+    public void setSuperMenu(Menu superMenu) {
+        this.superMenu = superMenu;
     }
 
     public Inventory getInventory() {
@@ -34,7 +34,9 @@ public abstract class Menu {
     }
 
     public abstract void onClick(int slot);
+
     public abstract void update();
+
     public abstract void initialize();
 
 }

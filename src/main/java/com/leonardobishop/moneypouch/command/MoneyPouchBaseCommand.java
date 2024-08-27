@@ -58,7 +58,7 @@ public class MoneyPouchBaseCommand implements CommandExecutor, TabCompleter {
             }
 
             Pouch pouch = null;
-            for (Pouch p: plugin.getPouches()) {
+            for (Pouch p : plugin.getPouches()) {
                 if (p.getId().equals(args[0])) {
                     pouch = p;
                     break;

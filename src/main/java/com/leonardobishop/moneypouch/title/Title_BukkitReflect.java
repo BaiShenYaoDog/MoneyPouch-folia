@@ -50,8 +50,8 @@ public class Title_BukkitReflect implements Title {
                 redundancy.sendTitle(player, title, subtitle);
                 return;
             }
-            Object chatComponent = aMethod.invoke(null, "{\"text\":\""+title+"\"}");
-            Object subtitleChatComponent = aMethod.invoke(null, "{\"text\":\""+subtitle+"\"}");
+            Object chatComponent = aMethod.invoke(null, "{\"text\":\"" + title + "\"}");
+            Object subtitleChatComponent = aMethod.invoke(null, "{\"text\":\"" + subtitle + "\"}");
             Object titlePacket = titleConstructor.newInstance(enumTitle, chatComponent);
             Object lengthPacket = lengthConstructor.newInstance(0, 50, 20);
             Object subtitlePacket = titleConstructor.newInstance(enumSubTitle, subtitleChatComponent);
@@ -91,7 +91,8 @@ public class Title_BukkitReflect implements Title {
         return classCache.computeIfAbsent(name, key -> {
             try {
                 return Class.forName("net.minecraft.server." + Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3] + "." + key);
-            } catch (ClassNotFoundException ignored) { }
+            } catch (ClassNotFoundException ignored) {
+            }
             return null;
         });
     }
